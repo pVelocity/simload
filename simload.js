@@ -16,15 +16,19 @@ var nextArrivalInSecondsWithRate = function(meanArrivalRate) {
     return -Math.log(1.0 - Math.random()) / (1.0 / meanArrivalRate);
 };
 
-var simUserIter = function(meanArrivalRate, workFunction, stopTime, callback) {
+var simUserIter = function(meanArrivalRate, workFunction, stopTime, prevWorkTime, callback) {
 
-    var waitTm = Math.round(nextArrivalInSecondsWithRate(meanArrivalRate) * 1000.0);
+    var waitTm = Math.round(nextArrivalInSecondsWithRate(meanArrivalRate) * 1000.0) - prevWorkTime;
+    waitTm = (waitTm < 0 || isNaN(waitTm)) ? 0 : waitTm;
     setTimeout(function() {
 
+        var startTime = (new Date().getTime());
         workFunction(waitTm);
+        var endTime = (new Date().getTime());
 
-        if ((new Date().getTime()) < stopTime) {
-            simUserIter(meanArrivalRate, workFunction, stopTime, callback);
+        if (endTime < stopTime) {
+            var prevWorkElapsedTime = endTime - startTime;
+            simUserIter(meanArrivalRate, workFunction, stopTime, prevWorkElapsedTime, callback);
         } else {
             callback();
         }
@@ -36,7 +40,7 @@ var simUserIter = function(meanArrivalRate, workFunction, stopTime, callback) {
 var simUserArrivals = function(meanArrivalRate, workFunction, durationInSeconds, callback) {
 
     var stopTime = (new Date().getTime()) + durationInSeconds * 1000;
-    simUserIter(meanArrivalRate, workFunction, stopTime, callback);
+    simUserIter(meanArrivalRate, workFunction, stopTime, 0, callback);
 };
 
 var simConcurrentUsers = function(numberOfUsers, meanArrivalRate, durationInSeconds, functionFactory) {
