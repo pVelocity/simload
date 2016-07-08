@@ -1,0 +1,30 @@
+{
+    "name": "simload",
+    "version": "0.1.0",
+    "description": "This is a simple driver to simulate client load.",
+    "main": "simload.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "pVelocity",
+        "load",
+        "testing",
+        "capacity",
+        "sizing",
+        "simulate",
+        "simulation"
+    ],
+    "author": "Kang Lu <kang.lu@pvelocity.com> (http://www.pvelocity.com)",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pVelocity/simload.git"
+    },
+    "bugs": {
+        "url": "https://github.com/pVelocity/simload/issues"
+    },
+    "license": "ISC",
+    "dependencies": {
+        "bluebird": "^3.4.1"
+    }
+}
