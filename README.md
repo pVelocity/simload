@@ -6,7 +6,7 @@ This is an npm module used to simulate a load profile of a general work defined 
 
 At pVelocity Inc. we have a need to simulate load profiles against certain services. We needed to generate a load profile based on the following model:
 
-<img src="figure/simload.svg.xml.svg"/>
+<img src="https://s3-us-west-2.amazonaws.com/pvmarketing/Images/simload.svg.xml.svg"/>
 
 pVelocity Inc. is an enterprise software company providing collaborative workflow solutions.
 
