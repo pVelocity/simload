@@ -32,7 +32,7 @@ var simUserIter = function(meanArrivalRate, workFunction, stopTime, prevWorkTime
         } else {
             setTimeout(function() {
                 callback();
-            }, waitTm + prevWorkTime * 2);
+            }, meanArrivalRate * 1000);
         }
 
     }, waitTm);

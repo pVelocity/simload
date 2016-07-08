@@ -1,6 +1,6 @@
 {
     "name": "simload",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "This is a simple driver to simulate client load.",
     "main": "simload.js",
     "scripts": {
