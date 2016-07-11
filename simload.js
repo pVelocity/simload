@@ -24,21 +24,17 @@ var simUserIter = function(meanArrivalRate, workFunction, stopTime, prevWorkTime
 
         var startTime = (new Date().getTime());
 
-        var wfPromis = workFunction(waitTm);
+        workFunction(waitTm).then(function() {
 
-        if (wfPromis instanceof Prom) {
-            wfPromis.then(function() {
+            var endTime = (new Date().getTime());
 
-                var endTime = (new Date().getTime());
-
-                if (endTime < stopTime) {
-                    var prevWorkElapsedTime = endTime - startTime;
-                    simUserIter(meanArrivalRate, workFunction, stopTime, prevWorkElapsedTime, callback);
-                } else {
-                    callback();
-                }
-            });
-        }
+            if (endTime < stopTime) {
+                var prevWorkElapsedTime = endTime - startTime;
+                simUserIter(meanArrivalRate, workFunction, stopTime, prevWorkElapsedTime, callback);
+            } else {
+                callback();
+            }
+        });
 
     }, waitTm);
 
