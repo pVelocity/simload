@@ -23,16 +23,21 @@ var simUserIter = function(meanArrivalRate, workFunction, stopTime, prevWorkTime
     setTimeout(function() {
 
         var startTime = (new Date().getTime());
-        workFunction(waitTm);
-        var endTime = (new Date().getTime());
 
-        if (endTime < stopTime) {
-            var prevWorkElapsedTime = endTime - startTime;
-            simUserIter(meanArrivalRate, workFunction, stopTime, prevWorkElapsedTime, callback);
-        } else {
-            setTimeout(function() {
-                callback();
-            }, meanArrivalRate * 1000);
+        var wfPromis = workFunction(waitTm);
+
+        if (wfPromis instanceof Prom) {
+            wfPromis.then(function() {
+
+                var endTime = (new Date().getTime());
+
+                if (endTime < stopTime) {
+                    var prevWorkElapsedTime = endTime - startTime;
+                    simUserIter(meanArrivalRate, workFunction, stopTime, prevWorkElapsedTime, callback);
+                } else {
+                    callback();
+                }
+            });
         }
 
     }, waitTm);
@@ -59,5 +64,6 @@ var simConcurrentUsers = function(numberOfUsers, meanArrivalRate, durationInSeco
 };
 
 module.exports = {
+    'Promise': Prom,
     'simulate': simConcurrentUsers
 };

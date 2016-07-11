@@ -11,9 +11,17 @@ var sim = require('../');
 var reqCount = 0;
 
 var workFunctionFactory = function(userIndex) {
+
     return function(waitTime) {
-        console.log("User " + userIndex + ": Waited " + waitTime + " (ms)");
-        reqCount++;
+
+        return new sim.Promise(function(res) {
+
+            console.log("User " + userIndex + ": Waited " + waitTime + " (ms)");
+            reqCount++;
+
+            res();
+
+        });
     };
 };
 

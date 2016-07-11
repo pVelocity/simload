@@ -16,9 +16,19 @@ var sim = require('../');
 var reqCount = 0;
 
 var workFunctionFactory = function(userIndex) {
+
     return function(waitTime) {
-        console.log("User " + userIndex + ": Waited " + waitTime + " (ms)");
-        reqCount++;
+
+        return new sim.Promise(function(res) {
+
+            /* Do work here */
+
+            console.log("User " + userIndex + ": Waited " + waitTime + " (ms)");
+            reqCount++;
+
+            res();
+
+        });
     };
 };
 
@@ -34,7 +44,7 @@ The main call is ``` sim.simulate ```. The first three arguments respectively sp
 * The average period (``` p ```) in seconds in between the trigger of successive work loads. This time includes the elapsed time of the work load itself. Therefore, if this time is shorter than the work load time, then the next work load will be immediately executed. This argument is a floating point number.
 * The third parameter indicates how many seconds (an integer ``` t ```) should the simulation run. The simulation will run for at least this time frame. Note that since p is a random interval, it is highly likely that the actual simulation duration will be longer than ``` t ```.
 
-The last argument is a function that will return the actual work load function for a specific simulated user. The work load function returned must be able to accept an optional argument indicating the amount of time waited by the simulated user prior to the triggering of the work. In this example, we have ``` workFunctionFactory ``` that simply creates a function to display the amount of time the simulated user waited before triggering the work load.
+The last argument is a function that will return the actual work load function for a specific simulated user. The work load function returned must be able to accept an optional argument indicating the amount of time waited by the simulated user prior to the triggering of the work. In this example, we have ``` workFunctionFactory ``` that simply creates a Promise that resolves into displaying the amount of time the simulated user waited before triggering the work load.
 
 The ``` simulate ``` function returns a Promise.
 
